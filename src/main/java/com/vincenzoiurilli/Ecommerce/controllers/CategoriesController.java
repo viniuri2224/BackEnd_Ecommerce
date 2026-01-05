@@ -1,0 +1,50 @@
+package com.vincenzoiurilli.Ecommerce.controllers;
+
+import com.vincenzoiurilli.Ecommerce.dto.categories.NewCategoryDTO;
+import com.vincenzoiurilli.Ecommerce.dto.categories.NewCategoryResponseDTO;
+import com.vincenzoiurilli.Ecommerce.services.CategoriesService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/categories")
+public class CategoriesController {
+
+    @Autowired
+    private CategoriesService categoriesService;
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/{categoryId}")
+    public NewCategoryDTO findById(@PathVariable("categoryId") UUID categoryId){
+        return this.categoriesService.findById(categoryId);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping
+    public List<NewCategoryDTO> findAll(){
+        return this.categoriesService.findAll();
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping
+    public NewCategoryResponseDTO createCategory(NewCategoryDTO body){
+        return categoriesService.createCategory(body);
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping
+    public NewCategoryDTO updateCategory(UUID categoryId, NewCategoryDTO body){
+        return this.categoriesService.updateCategory(categoryId, body);
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping
+    public void deleteCategory(UUID categoryId){
+        this.categoriesService.deleteCategory(categoryId);
+    }
+
+
+
+}
