@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +22,8 @@ public class Orders {
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
+    @OneToMany(mappedBy = "order")
+    private List<OrderProducts> orderProducts;
 
     public Orders() {
     }
@@ -48,5 +51,9 @@ public class Orders {
 
     public void setUser(Users user) {
         this.user = user;
+    }
+
+    public List<OrderProducts> getOrderProducts() {
+        return orderProducts;
     }
 }

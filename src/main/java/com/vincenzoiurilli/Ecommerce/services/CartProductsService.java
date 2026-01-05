@@ -8,6 +8,7 @@ import com.vincenzoiurilli.Ecommerce.entities.Carts;
 import com.vincenzoiurilli.Ecommerce.entities.Products;
 import com.vincenzoiurilli.Ecommerce.entities.Users;
 import com.vincenzoiurilli.Ecommerce.entities.CartProducts;
+import com.vincenzoiurilli.Ecommerce.exceptions.NotFoundException;
 import com.vincenzoiurilli.Ecommerce.repositories.CartProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,6 +80,14 @@ public class CartProductsService {
         }
         return dtos;
 
+    }
+
+    public List<CartProducts> getCartItems(UUID cartId){
+        return this.cartProductsRepository.getCart(cartId);
+    }
+
+    public void deleteCartItemAfterOrder(CartProducts item){
+        this.cartProductsRepository.delete(item);
     }
 
 }

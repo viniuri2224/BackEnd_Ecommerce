@@ -19,4 +19,5 @@ public interface CartProductsRepository extends JpaRepository<CartProducts, UUID
     @Query("SELECT cp FROM CartProducts cp WHERE cp.cart = :cart")
     List<CartProducts> getCart(@Param("cart") UUID cart);
 
+
 }
