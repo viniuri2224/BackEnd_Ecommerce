@@ -2,12 +2,17 @@ package com.vincenzoiurilli.Ecommerce.controllers;
 
 import com.vincenzoiurilli.Ecommerce.dto.addresses.NewAddressDTO;
 import com.vincenzoiurilli.Ecommerce.dto.addresses.NewAddressResponseDTO;
+import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductDTO;
+import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductQtyDTO;
+import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.NewUserDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.UpdatedUserResponseDTO;
 import com.vincenzoiurilli.Ecommerce.entities.Users;
 import com.vincenzoiurilli.Ecommerce.services.AddressesService;
+import com.vincenzoiurilli.Ecommerce.services.CartProductsService;
 import com.vincenzoiurilli.Ecommerce.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +30,9 @@ public class UsersController {
 
     @Autowired
     private AddressesService addressesService;
+
+    @Autowired
+    private CartProductsService cartProductsService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
@@ -65,5 +73,19 @@ public class UsersController {
     public void deleteAddress(@PathVariable("addressId") UUID addressId, @AuthenticationPrincipal Users user) {
         this.addressesService.deleteAddress(addressId, user);
     }
+
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PostMapping("/me/carts")
+    public NewCartProductResponseDTO addToCart(@RequestBody NewCartProductDTO body, @AuthenticationPrincipal Users user){
+        return this.cartProductsService.addNewItemToCart(body, user);
+    }
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PutMapping("/me/carts/items/{productId}")
+    public NewCartProductDTO changeItemQty(@PathVariable("productId") UUID productId, @RequestBody NewCartProductQtyDTO body, @AuthenticationPrincipal Users user){
+        return this.cartProductsService.updateItemQuantity(productId, body, user);
+    }
+
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.vincenzoiurilli.Ecommerce.services;
 
+import com.vincenzoiurilli.Ecommerce.dto.carts.GetCartProductsDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductQtyDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductResponseDTO;
@@ -11,6 +12,8 @@ import com.vincenzoiurilli.Ecommerce.repositories.CartProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -38,7 +41,7 @@ public class CartProductsService {
         Carts cart = currentUser.getCart();
 
         CartProducts item = this.cartProductsRepository.getItem(productId, cart.getId());
-        
+
         item.setProductQuantity(body.quantity());
 
         this.cartProductsRepository.save(item);
@@ -47,7 +50,7 @@ public class CartProductsService {
 
     }
 
-    public void deleteItemFromCart(UUID productId, UUID cartId, Users currentUser) {
+    public void deleteItemFromCart(UUID productId, Users currentUser) {
         Products product = this.productsService.findById(productId);
         Carts cart = currentUser.getCart();
 
@@ -55,4 +58,27 @@ public class CartProductsService {
 
         this.cartProductsRepository.delete(item);
     }
+
+    public List<GetCartProductsDTO> getCartProducts(Users currentUser) {
+        Carts cart = currentUser.getCart();
+
+        List<CartProducts> cartItems = this.cartProductsRepository.getCart(cart.getId());
+
+        List<GetCartProductsDTO> dtos = new ArrayList<>();
+        for (CartProducts item : cartItems) {
+            GetCartProductsDTO dto = new GetCartProductsDTO(
+                    item.getProduct().getId(),
+                    item.getCart().getId(),
+                    item.getProductQuantity(),
+                    item.getProduct().getPrice()
+
+            );
+
+            dtos.add(dto);
+
+        }
+        return dtos;
+
+    }
+
 }
