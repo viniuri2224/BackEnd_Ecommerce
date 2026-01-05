@@ -11,6 +11,6 @@ import java.util.UUID;
 @Repository
 public interface UserAddressesRepository extends JpaRepository<UserAddresses, UUID> {
 
-    @Query("SELECT ua FROM UserAddresses ua WHERE ua.user_id = :userId AND ua.address_id = :addressId")
+    @Query("SELECT ua FROM UserAddresses ua WHERE ua.user = :userId AND ua.address = :addressId")
     UserAddresses findUserAddressesByUserIdAndAddressId(@Param("userId") UUID userId, @Param("addressId") UUID addressId);
 }
