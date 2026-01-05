@@ -2,6 +2,7 @@ package com.vincenzoiurilli.Ecommerce.controllers;
 
 import com.vincenzoiurilli.Ecommerce.dto.addresses.NewAddressDTO;
 import com.vincenzoiurilli.Ecommerce.dto.addresses.NewAddressResponseDTO;
+import com.vincenzoiurilli.Ecommerce.dto.carts.GetCartProductsDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductQtyDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductResponseDTO;
@@ -84,8 +85,15 @@ public class UsersController {
     public NewCartProductDTO changeItemQty(@PathVariable("productId") UUID productId, @RequestBody NewCartProductQtyDTO body, @AuthenticationPrincipal Users user){
         return this.cartProductsService.updateItemQuantity(productId, body, user);
     }
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @DeleteMapping("/me/carts/items/{productId}")
+    public void deleteItemFromCart(@PathVariable("productId") UUID productId, @AuthenticationPrincipal Users currentUser) {
+        this.cartProductsService.deleteItemFromCart(productId, currentUser);
+    }
 
-
-
+    @GetMapping("/me/carts/items")
+    public List<GetCartProductsDTO> getCartItems(@AuthenticationPrincipal Users currentUser) {
+        return this.cartProductsService.getCartProducts(currentUser);
+    }
 
 }
