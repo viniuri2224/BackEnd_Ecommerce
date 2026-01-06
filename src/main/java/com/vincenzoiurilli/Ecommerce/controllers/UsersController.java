@@ -6,6 +6,7 @@ import com.vincenzoiurilli.Ecommerce.dto.carts.GetCartProductsDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductQtyDTO;
 import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductResponseDTO;
+import com.vincenzoiurilli.Ecommerce.dto.users.GetUsersResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.NewUserDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.UpdatedUserResponseDTO;
 import com.vincenzoiurilli.Ecommerce.entities.Users;
@@ -40,7 +41,7 @@ public class UsersController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public List<Users> getUsers() {
+    public List<GetUsersResponseDTO> getUsers() {
         return this.usersService.getUsers();
     }
 

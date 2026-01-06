@@ -3,6 +3,7 @@ package com.vincenzoiurilli.Ecommerce.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.vincenzoiurilli.Ecommerce.dto.orders.GetOrdersResponseDTO;
+import com.vincenzoiurilli.Ecommerce.dto.users.GetUsersResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.NewUserDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.NewUserDTOResponse;
 import com.vincenzoiurilli.Ecommerce.dto.users.UpdatedUserResponseDTO;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -47,8 +49,15 @@ public class UsersService {
     private OrdersService ordersService;
 
 
-    public List<Users> getUsers() {
-        return userRepository.findAll();
+    public List<GetUsersResponseDTO> getUsers() {
+
+        List<Users> users = userRepository.findAll();
+        List<GetUsersResponseDTO> dtos = new ArrayList<>();
+        for (Users user : users) {
+            GetUsersResponseDTO dto = new GetUsersResponseDTO(user.getName(), user.getSurname(), user.getEmail(), user.getRegistrationDate(), user.getRole().name(), user.getStatus().name());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     public NewUserDTOResponse save(NewUserDTO body) {
