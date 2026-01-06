@@ -9,6 +9,7 @@ import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.NewUserDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.UpdatedUserResponseDTO;
 import com.vincenzoiurilli.Ecommerce.entities.Users;
+import com.vincenzoiurilli.Ecommerce.exceptions.ValidationException;
 import com.vincenzoiurilli.Ecommerce.services.AddressesService;
 import com.vincenzoiurilli.Ecommerce.services.CartProductsService;
 import com.vincenzoiurilli.Ecommerce.services.UsersService;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,7 +47,10 @@ public class UsersController {
 
     @PreAuthorize("hasAuthority('ADMIN') or #userId == authentication.principal.id")
     @PutMapping("/{userId}")
-    public UpdatedUserResponseDTO getUserByIdAndUpdate(@PathVariable("userId") UUID userId, @RequestBody NewUserDTO body){
+    public UpdatedUserResponseDTO getUserByIdAndUpdate(@PathVariable("userId") UUID userId, @RequestBody @Validated NewUserDTO body, BindingResult validationResult){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.usersService.findByIdAndUpdateUser(userId, body);
     }
 
@@ -61,12 +67,18 @@ public class UsersController {
     }
 
     @PostMapping("/addresses")
-    public NewAddressResponseDTO createAddress(@RequestBody NewAddressDTO body, @AuthenticationPrincipal Users user){
+    public NewAddressResponseDTO createAddress(@RequestBody @Validated NewAddressDTO body, BindingResult validationResult, @AuthenticationPrincipal Users user){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.addressesService.newAddress(body,  user);
     }
 
     @PutMapping("/addresses/{addressId}")
-    public NewAddressDTO updateAddress(@RequestBody NewAddressDTO body, @PathVariable("addressId") UUID addressId, @AuthenticationPrincipal Users user){
+    public NewAddressDTO updateAddress(@RequestBody @Validated NewAddressDTO body, BindingResult validationResult, @PathVariable("addressId") UUID addressId, @AuthenticationPrincipal Users user){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.addressesService.updateAddress(addressId, body, user);
     }
 
@@ -77,12 +89,18 @@ public class UsersController {
 
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @PostMapping("/me/carts")
-    public NewCartProductResponseDTO addToCart(@RequestBody NewCartProductDTO body, @AuthenticationPrincipal Users user){
+    public NewCartProductResponseDTO addToCart(@RequestBody @Validated NewCartProductDTO body, BindingResult validationResult, @AuthenticationPrincipal Users user){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.cartProductsService.addNewItemToCart(body, user);
     }
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @PutMapping("/me/carts/items/{productId}")
-    public NewCartProductDTO changeItemQty(@PathVariable("productId") UUID productId, @RequestBody NewCartProductQtyDTO body, @AuthenticationPrincipal Users user){
+    public NewCartProductDTO changeItemQty(@PathVariable("productId") UUID productId, @RequestBody @Validated NewCartProductQtyDTO body, BindingResult validationResult,@AuthenticationPrincipal Users user){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.cartProductsService.updateItemQuantity(productId, body, user);
     }
     @PreAuthorize("hasAuthority('CUSTOMER')")

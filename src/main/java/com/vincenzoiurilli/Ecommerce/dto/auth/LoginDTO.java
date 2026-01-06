@@ -1,4 +1,10 @@
 package com.vincenzoiurilli.Ecommerce.dto.auth;
 
-public record LoginDTO(String email, String password) {
+import jakarta.validation.constraints.NotBlank;
+
+public record LoginDTO(
+        @NotBlank(message = "La mail è obbligatoria!")
+        String email,
+        @NotBlank(message = "La password è obbligatoria!")
+        String password) {
 }

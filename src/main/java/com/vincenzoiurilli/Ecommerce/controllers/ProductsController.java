@@ -6,12 +6,15 @@ import com.vincenzoiurilli.Ecommerce.entities.DigitalProduct;
 import com.vincenzoiurilli.Ecommerce.entities.PhysicalProduct;
 import com.vincenzoiurilli.Ecommerce.entities.Products;
 import com.vincenzoiurilli.Ecommerce.entities.Users;
+import com.vincenzoiurilli.Ecommerce.exceptions.ValidationException;
 import com.vincenzoiurilli.Ecommerce.services.ProductCategoriesService;
 import com.vincenzoiurilli.Ecommerce.services.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.codec.multipart.PartHttpMessageWriter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,25 +31,38 @@ public class ProductsController {
 
     @PreAuthorize("hasAuthority('SELLER')")
     @PostMapping("/digital-products")
-    public NewProductResponseDTO createNewDigitalProduct(@AuthenticationPrincipal Users currentUser, @RequestBody NewDigitalProductDTO body){
+    public NewProductResponseDTO createNewDigitalProduct(@AuthenticationPrincipal Users currentUser, @RequestBody @Validated NewDigitalProductDTO body,  BindingResult validationResult){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
+
         return productsService.createNewProduct(body, currentUser);
     }
 
     @PreAuthorize("hasAuthority('SELLER')")
     @PostMapping("/physical-products")
-    public NewProductResponseDTO createNewPhysicalProduct(@AuthenticationPrincipal Users currentUser, @RequestBody NewPhysicalProductDTO body){
+    public NewProductResponseDTO createNewPhysicalProduct(@AuthenticationPrincipal Users currentUser, @RequestBody @Validated NewPhysicalProductDTO body, BindingResult validationResult){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return productsService.createNewProduct(body, currentUser);
     }
 
     @PreAuthorize("hasAuthority('SELLER')")
     @PutMapping("/digital-products/{productId}")
-    public UpdatedDigitalProductResponseDTO getProductByIdAndUpdate(@PathVariable("productId") UUID productId, @RequestBody NewDigitalProductDTO body, @AuthenticationPrincipal Users currentUser){
+    public UpdatedDigitalProductResponseDTO getProductByIdAndUpdate(@PathVariable("productId") UUID productId, @RequestBody @Validated NewDigitalProductDTO body, BindingResult validationResult, @AuthenticationPrincipal Users currentUser){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.productsService.findByIdAndUpdate(productId, body, currentUser);
     }
 
     @PreAuthorize("hasAuthority('SELLER')")
     @PutMapping("/physical-products/{productId}")
-    public UpdatedPhysicalProductResponseDTO getProductByIdAndUpdate(@PathVariable("productId") UUID productId, @RequestBody NewPhysicalProductDTO body, @AuthenticationPrincipal Users currentUser){
+    public UpdatedPhysicalProductResponseDTO getProductByIdAndUpdate(@PathVariable("productId") UUID productId, @RequestBody @Validated NewPhysicalProductDTO body, BindingResult validationResult, @AuthenticationPrincipal Users currentUser){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.productsService.findByIdAndUpdate(productId, body, currentUser);
     }
 

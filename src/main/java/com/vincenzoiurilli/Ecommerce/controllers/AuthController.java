@@ -30,7 +30,10 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public LoginResponseDTO login(@RequestBody LoginDTO body) {
+    public LoginResponseDTO login(@RequestBody @Validated LoginDTO body, BindingResult validationResult) {
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.authService.login(body);
 
     }

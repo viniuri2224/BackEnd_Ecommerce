@@ -2,9 +2,12 @@ package com.vincenzoiurilli.Ecommerce.controllers;
 
 import com.vincenzoiurilli.Ecommerce.dto.categories.NewCategoryDTO;
 import com.vincenzoiurilli.Ecommerce.dto.categories.NewCategoryResponseDTO;
+import com.vincenzoiurilli.Ecommerce.exceptions.ValidationException;
 import com.vincenzoiurilli.Ecommerce.services.CategoriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,12 +34,18 @@ public class CategoriesController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public NewCategoryResponseDTO createCategory(NewCategoryDTO body){
+    public NewCategoryResponseDTO createCategory(@RequestBody @Validated NewCategoryDTO body, BindingResult validationResult){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return categoriesService.createCategory(body);
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping
-    public NewCategoryDTO updateCategory(UUID categoryId, NewCategoryDTO body){
+    public NewCategoryDTO updateCategory(UUID categoryId, @RequestBody @Validated NewCategoryDTO body, BindingResult validationResult){
+        if (validationResult.hasErrors()) {
+            throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+        }
         return this.categoriesService.updateCategory(categoryId, body);
     }
     @PreAuthorize("hasAuthority('ADMIN')")
