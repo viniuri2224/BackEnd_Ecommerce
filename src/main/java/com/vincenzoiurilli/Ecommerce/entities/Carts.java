@@ -3,6 +3,7 @@ package com.vincenzoiurilli.Ecommerce.entities;
 import jakarta.persistence.*;
 
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +19,7 @@ public class Carts {
     private Users user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private CartProducts products;
+    private List<CartProducts> products;
 
     public Carts() {}
 
