@@ -23,10 +23,10 @@ public class Users{
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String surname;
 
     @Column(nullable = false, unique = true)

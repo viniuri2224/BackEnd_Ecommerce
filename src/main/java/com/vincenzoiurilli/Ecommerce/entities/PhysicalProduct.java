@@ -8,11 +8,11 @@ import jakarta.persistence.Table;
 @Table(name="PhysicalProduct")
 public class PhysicalProduct extends Products{
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private float weight;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String dimensions;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private boolean shipping_required;
 
     public PhysicalProduct() {}

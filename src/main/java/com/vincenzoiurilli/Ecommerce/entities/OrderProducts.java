@@ -14,11 +14,11 @@ public class OrderProducts {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name="order_id", nullable = false, unique = true)
+    @JoinColumn(name="order_id", nullable = false)
     private Orders order;
 
     @ManyToOne
-    @JoinColumn(name="product_id", nullable = false, unique = true)
+    @JoinColumn(name="product_id", nullable = false)
     private Products product;
 
     @Column(nullable = false)

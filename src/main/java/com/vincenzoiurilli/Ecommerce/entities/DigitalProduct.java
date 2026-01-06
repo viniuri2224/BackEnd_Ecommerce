@@ -16,10 +16,10 @@ public class DigitalProduct extends Products{
     @Column(nullable = false, unique = true)
     private String fileName;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String fileSize;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String format;
 
     public DigitalProduct() {}
