@@ -13,10 +13,10 @@ import java.util.UUID;
 @Repository
 public interface CartProductsRepository extends JpaRepository<CartProducts, UUID> {
 
-    @Query("SELECT cp FROM CartProducts cp WHERE cp.product = :product AND cp.cart = :cart" )
+    @Query("SELECT cp FROM CartProducts cp WHERE cp.product.id = :product AND cp.cart.id = :cart" )
     CartProducts getItem(@Param("product") UUID productId, @Param("cart") UUID cart);
 
-    @Query("SELECT cp FROM CartProducts cp WHERE cp.cart = :cart")
+    @Query("SELECT cp FROM CartProducts cp WHERE cp.cart.id = :cart")
     List<CartProducts> getCartItems(@Param("cart") UUID cart);
 
 

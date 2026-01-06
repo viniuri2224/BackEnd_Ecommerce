@@ -19,7 +19,7 @@ public class ExceptionsHandler {
         return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
+    @ExceptionHandler(ProductTypeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST) // 401
     public ErrorDTO handleProductType(ProductTypeException ex) {
         return new ErrorDTO(ex.getMessage(), LocalDateTime.now());

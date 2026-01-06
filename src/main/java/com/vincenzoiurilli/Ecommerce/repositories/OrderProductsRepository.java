@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderProductsRepository extends JpaRepository<OrderProducts, UUID> {
 
-    @Query("SELECT COUNT(o) FROM OrderProducts o WHERE o.product = :productId")
+    @Query("SELECT COUNT(o) FROM OrderProducts o WHERE o.product.id = :productId")
     Integer countByProduct(@Param("productId") UUID productId);
 
     @Query("SELECT p.id, p.name, SUM(o.quantity), SUM(o.quantity * o.price_at_purchase) FROM OrderProducts o JOIN o.product p WHERE p.seller.id = :sellerId GROUP BY p.id, p.name")

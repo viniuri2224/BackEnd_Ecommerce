@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface ProductCategoriesRepository extends JpaRepository<ProductCategories, UUID> {
 
-    @Query("SELECT pc FROM ProductCategories pc WHERE pc.category = :categoryId AND pc.product = :productId")
+    @Query("SELECT pc FROM ProductCategories pc WHERE pc.category.id = :categoryId AND pc.product.id = :productId")
     ProductCategories getProductCategoriesByCategoryIdAndProductId(@Param("categoryId") UUID categoryId, @Param("productId") UUID productId);
 
 }

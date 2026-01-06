@@ -41,16 +41,16 @@ public class CategoriesController {
         return categoriesService.createCategory(body);
     }
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping
-    public NewCategoryDTO updateCategory(UUID categoryId, @RequestBody @Validated NewCategoryDTO body, BindingResult validationResult){
+    @PutMapping("/{categoryId}")
+    public NewCategoryDTO updateCategory(@PathVariable("categoryId") UUID categoryId, @RequestBody @Validated NewCategoryDTO body, BindingResult validationResult){
         if (validationResult.hasErrors()) {
             throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
         }
         return this.categoriesService.updateCategory(categoryId, body);
     }
     @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping
-    public void deleteCategory(UUID categoryId){
+    @DeleteMapping("/{categoryId}")
+    public void deleteCategory(@PathVariable("categoryId") UUID categoryId){
         this.categoriesService.deleteCategory(categoryId);
     }
 

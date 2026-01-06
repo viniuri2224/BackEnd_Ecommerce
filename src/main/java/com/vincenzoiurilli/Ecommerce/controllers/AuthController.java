@@ -29,7 +29,7 @@ public class AuthController {
         return this.authService.createNewUser(body);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public LoginResponseDTO login(@RequestBody @Validated LoginDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());

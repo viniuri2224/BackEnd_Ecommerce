@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface OrdersRepository extends JpaRepository<Orders, UUID>{
 
-    @Query("SELECT o FROM Orders o WHERE o.user = :userId")
+    @Query("SELECT o FROM Orders o WHERE o.user.id = :userId")
     List<Orders> getOrders(@Param("userId") UUID userId);
 
 }

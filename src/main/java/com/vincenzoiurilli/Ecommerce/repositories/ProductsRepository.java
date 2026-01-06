@@ -12,10 +12,10 @@ import java.util.UUID;
 
 @Repository
 public interface ProductsRepository extends JpaRepository<Products, UUID> {
-    @Query("SELECT p FROM Products p WHERE p.seller = :seller")
+    @Query("SELECT p FROM Products p WHERE p.seller.id = :seller")
     List<Products> findBySeller(@Param("seller") UUID seller);
 
-    @Query("SELECT p FROM Products p WHERE p.seller = :seller AND p.id = :productId")
+    @Query("SELECT p FROM Products p WHERE p.seller.id = :seller AND p.id = :productId")
     Products findyProductWithSeller(@Param("seller") UUID seller, @Param("productId") UUID productId);
 
 }
