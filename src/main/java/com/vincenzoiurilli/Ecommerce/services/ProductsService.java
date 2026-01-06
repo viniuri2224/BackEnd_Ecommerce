@@ -3,7 +3,9 @@ package com.vincenzoiurilli.Ecommerce.services;
 import com.cloudinary.provisioning.Account;
 import com.vincenzoiurilli.Ecommerce.dto.products.*;
 import com.vincenzoiurilli.Ecommerce.entities.*;
+import com.vincenzoiurilli.Ecommerce.exceptions.ForbiddenException;
 import com.vincenzoiurilli.Ecommerce.exceptions.NotFoundException;
+import com.vincenzoiurilli.Ecommerce.exceptions.ProductTypeException;
 import com.vincenzoiurilli.Ecommerce.exceptions.UnauthorizedException;
 import com.vincenzoiurilli.Ecommerce.repositories.OrderProductsRepository;
 import com.vincenzoiurilli.Ecommerce.repositories.ProductsRepository;
@@ -41,11 +43,20 @@ public class ProductsService {
     }
 
     public List<Products> getAllProducts(Users currentUser){
+        List<Products> foundProducts;
         if(currentUser.getRole() == Role.SELLER){
-            return productsRepository.findBySeller(currentUser.getId());
+            foundProducts = this.productsRepository.findBySeller(currentUser.getId());
+            if(foundProducts.isEmpty()){
+                throw new NotFoundException("Products for sellers not found");
+            }
+            return foundProducts;
         }
         else{
-            return productsRepository.findAll();
+           foundProducts = this.productsRepository.findAll();
+           if(foundProducts.isEmpty()){
+               throw new NotFoundException("Products not found");
+           }
+           return foundProducts;
         }
     }
 
@@ -71,10 +82,11 @@ public class ProductsService {
         Products product = this.productsRepository.findById(productId).orElseThrow(() -> new NotFoundException(productId));
 
         if(!(product instanceof DigitalProduct)){
-            throw new NotFoundException(productId); //DA CAMBIARE DOPO
+            throw new ProductTypeException("The product it is not digital");
+
         }
         if(!(currentUser.getId().equals(product.getSeller().getId()))) {
-            throw new NotFoundException(productId);
+            throw new UnauthorizedException("You are not allowed to access this product");
         }
 
         DigitalProduct digitalProduct = (DigitalProduct) product;
@@ -98,7 +110,7 @@ public class ProductsService {
         Products product = this.productsRepository.findById(productId).orElseThrow(() -> new NotFoundException(productId));
 
         if(!(product instanceof PhysicalProduct)){
-            throw new NotFoundException(productId); //DA CAMBIARE DOPO
+            throw new ProductTypeException("The product it is not physical");
         }
         if(!(currentUser.getId().equals(product.getSeller().getId()))) {
             throw new NotFoundException(productId);
@@ -132,7 +144,7 @@ public class ProductsService {
         }
 
         if(hasOrders(product.getId())){
-            throw new UnauthorizedException("You are not allowed to access this product"); //DA CAMBIARE DOPO
+            throw new ForbiddenException("This product has orders; therefor you can't delete this product");
         }
 
         this.productsRepository.delete(product);

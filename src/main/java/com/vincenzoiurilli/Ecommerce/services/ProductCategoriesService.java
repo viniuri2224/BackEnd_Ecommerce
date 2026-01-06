@@ -53,6 +53,10 @@ public class ProductCategoriesService {
 
         ProductCategories productCategory = this.productCategoriesRepository.getProductCategoriesByCategoryIdAndProductId(categoryId, productId);
 
+        if(productCategory == null){
+            throw new NotFoundException("Association with product and category not found");
+        }
+
         this.productCategoriesRepository.delete(productCategory);
     }
 

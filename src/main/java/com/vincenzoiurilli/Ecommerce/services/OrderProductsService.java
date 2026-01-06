@@ -3,6 +3,7 @@ package com.vincenzoiurilli.Ecommerce.services;
 import com.vincenzoiurilli.Ecommerce.dto.products.ProductsStatisticDTO;
 import com.vincenzoiurilli.Ecommerce.entities.OrderProducts;
 import com.vincenzoiurilli.Ecommerce.entities.Users;
+import com.vincenzoiurilli.Ecommerce.exceptions.NotFoundException;
 import com.vincenzoiurilli.Ecommerce.repositories.OrderProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,11 @@ public class OrderProductsService {
     }
 
     public List<ProductsStatisticDTO> getProductsStatisticBySellerId(Users currentUser){
-        return this.orderProductsRepository.getProductsStatisticBySellerId(currentUser.getId());
+        List<ProductsStatisticDTO> statistics = this.orderProductsRepository.getProductsStatisticBySellerId(currentUser.getId());
+        if(statistics.isEmpty()){
+            throw new NotFoundException("Statistics not found");
+        }
+        return statistics;
     }
 
     public void createOrderItems(OrderProducts orderProducts){

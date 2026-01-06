@@ -43,6 +43,10 @@ public class CartProductsService {
 
         CartProducts item = this.cartProductsRepository.getItem(productId, cart.getId());
 
+        if (item == null) {
+            throw new NotFoundException("Product on cart not found");
+        }
+
         item.setProductQuantity(body.quantity());
 
         this.cartProductsRepository.save(item);
@@ -57,13 +61,21 @@ public class CartProductsService {
 
         CartProducts item = this.cartProductsRepository.getItem(productId, cart.getId());
 
+        if (item == null) {
+            throw new NotFoundException("Product on cart not found");
+        }
+
         this.cartProductsRepository.delete(item);
     }
 
     public List<GetCartProductsDTO> getCartProducts(Users currentUser) {
         Carts cart = currentUser.getCart();
 
-        List<CartProducts> cartItems = this.cartProductsRepository.getCart(cart.getId());
+        List<CartProducts> cartItems = this.cartProductsRepository.getCartItems(cart.getId());
+
+        if (cartItems.isEmpty()) {
+            throw new NotFoundException("No item on cart found");
+        }
 
         List<GetCartProductsDTO> dtos = new ArrayList<>();
         for (CartProducts item : cartItems) {
@@ -83,11 +95,20 @@ public class CartProductsService {
     }
 
     public List<CartProducts> getCartItems(UUID cartId){
-        return this.cartProductsRepository.getCart(cartId);
+        List<CartProducts> items = this.cartProductsRepository.getCartItems(cartId);
+
+        if (items.isEmpty()) {
+            throw new NotFoundException(cartId);
+        }
+
+        return items;
     }
 
     public void deleteCartItemAfterOrder(CartProducts item){
-        this.cartProductsRepository.delete(item);
+
+        CartProducts foundItem = this.cartProductsRepository.findById(item.getId()).orElseThrow(() -> new NotFoundException(item.getId()));
+
+        this.cartProductsRepository.delete(foundItem);
     }
 
 }

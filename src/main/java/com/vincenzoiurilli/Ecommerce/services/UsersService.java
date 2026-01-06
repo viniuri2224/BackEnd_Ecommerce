@@ -100,7 +100,6 @@ public class UsersService {
 
             Map result = imageUploader.uploader().upload(file.getBytes(), options);
             String imageUrl = (String) result.get("url");
-            // ... qua salvo l'URL dentro il record dello user di riferimento
             Users owner = this.findById(ownerId);
             owner.setProfileImageUrl(imageUrl);
             this.userRepository.save(owner);

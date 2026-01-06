@@ -37,11 +37,11 @@ public class AddressesService {
         Addresses addresses = new Addresses(body.address().toUpperCase(), body.city().toUpperCase(), body.region().toUpperCase(), body.state().toUpperCase());
         Addresses savedAddress;
 
-        if(!(existAddress(body.address().toUpperCase(), body.city().toUpperCase(), body.region().toUpperCase(), body.state()))) {
+        if(!(existAddress(body.address().toUpperCase(), body.city().toUpperCase(), body.region().toUpperCase(), body.state().toUpperCase()))) {
              savedAddress = this.addressesRepository.save(addresses);
         }
         else {
-             savedAddress = this.getAddress(body.address(), body.city(), body.region(), body.state());
+             savedAddress = this.getAddress(body.address().toUpperCase(), body.city().toUpperCase(), body.region().toUpperCase(), body.state().toUpperCase());
         }
 
         this.userAddressesService.newUserAddresses(currentUser, savedAddress);
