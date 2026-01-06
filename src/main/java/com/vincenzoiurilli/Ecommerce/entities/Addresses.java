@@ -3,6 +3,8 @@ package com.vincenzoiurilli.Ecommerce.entities;
 import jakarta.persistence.*;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,17 +15,20 @@ public class Addresses {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String city;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String region;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String state;
+
+    @OneToMany(mappedBy = "address", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<UserAddresses> userLinks = new ArrayList<>();
 
     public Addresses() {}
 

@@ -38,7 +38,7 @@ public class Users{
     @Column(name="registration_date", nullable = false)
     private LocalDateTime registrationDate;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Carts cart;
 
     @Enumerated(EnumType.STRING)
@@ -52,6 +52,9 @@ public class Users{
 
     @Column(name="profile_img_url")
     private String profileImageUrl;
+
+    @OneToMany(mappedBy = "address", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<UserAddresses> userLinks = new ArrayList<>();
 
     public Users(){
     }

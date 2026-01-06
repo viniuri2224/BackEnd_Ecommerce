@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,12 +18,15 @@ public class Categories {
     @GeneratedValue
     private UUID id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String description;
-    @Column(unique = true)
+    @Column(nullable = false)
     private String type;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ProductCategories> productCategories = new ArrayList<>();
 
     public Categories() {}
 

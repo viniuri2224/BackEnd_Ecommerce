@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Min;
 import org.hibernate.annotations.JoinColumnOrFormula;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +33,9 @@ public abstract class Products {
 
     @Column(nullable = false)
     private int quantity;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<ProductCategories> productCategories = new ArrayList<>();
 
     protected Products() {}
 

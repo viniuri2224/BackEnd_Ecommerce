@@ -2,12 +2,14 @@ package com.vincenzoiurilli.Ecommerce.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.vincenzoiurilli.Ecommerce.dto.orders.GetOrdersResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.NewUserDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.NewUserDTOResponse;
 import com.vincenzoiurilli.Ecommerce.dto.users.UpdatedUserResponseDTO;
 import com.vincenzoiurilli.Ecommerce.entities.Role;
 import com.vincenzoiurilli.Ecommerce.entities.Status;
 import com.vincenzoiurilli.Ecommerce.entities.Users;
+import com.vincenzoiurilli.Ecommerce.exceptions.ForbiddenException;
 import com.vincenzoiurilli.Ecommerce.exceptions.NotFoundException;
 import com.vincenzoiurilli.Ecommerce.repositories.UserRepository;
 
@@ -40,6 +42,10 @@ public class UsersService {
 
     @Autowired
     private CartsService cartsService;
+
+    @Autowired
+    private OrdersService ordersService;
+
 
     public List<Users> getUsers() {
         return userRepository.findAll();
@@ -89,6 +95,12 @@ public class UsersService {
 
     public void findByIdAndDeleteUser(UUID userId) {
         Users user = this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+
+        List<GetOrdersResponseDTO> userOrders = this.ordersService.getOrders(user);
+        if (!(userOrders.isEmpty())) {
+            throw new ForbiddenException("You can't delete this user because there are " + userOrders.size() + " orders");
+        }
+
         this.userRepository.delete(user);
     }
 
