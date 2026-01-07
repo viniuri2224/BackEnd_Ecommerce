@@ -7,9 +7,9 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.util.UUID;
 
 public record NewCartProductDTO(
-        @NotBlank(message = "Il prodotto è obbligatorio")
+        @NotNull(message = "Il prodotto è obbligatorio")
         UUID productId,
-        @NotBlank(message = "Il carrello è obbligatorio")
+        @NotNull(message = "Il carrello è obbligatorio")
         UUID cartId,
         @NotNull(message = "Inserire una quantità")
         @PositiveOrZero(message = "La quantità non può essere minore di zero")

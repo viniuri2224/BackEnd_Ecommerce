@@ -2,10 +2,7 @@ package com.vincenzoiurilli.Ecommerce.controllers;
 
 import com.vincenzoiurilli.Ecommerce.dto.addresses.NewAddressDTO;
 import com.vincenzoiurilli.Ecommerce.dto.addresses.NewAddressResponseDTO;
-import com.vincenzoiurilli.Ecommerce.dto.carts.GetCartProductsDTO;
-import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductDTO;
-import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductQtyDTO;
-import com.vincenzoiurilli.Ecommerce.dto.carts.NewCartProductResponseDTO;
+import com.vincenzoiurilli.Ecommerce.dto.carts.*;
 import com.vincenzoiurilli.Ecommerce.dto.users.GetUsersResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.NewUserDTO;
 import com.vincenzoiurilli.Ecommerce.dto.users.UpdatedUserResponseDTO;
@@ -122,8 +119,8 @@ public class UsersController {
     }
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/me/carts")
-    public UUID getCartId(@AuthenticationPrincipal Users currentUser) {
-        return this.usersService.getCartId(currentUser.getId());
+    public CartResponseDTO getCartId(@AuthenticationPrincipal Users currentUser) {
+        return new CartResponseDTO(this.usersService.getCartId(currentUser.getId()));
     }
 
 

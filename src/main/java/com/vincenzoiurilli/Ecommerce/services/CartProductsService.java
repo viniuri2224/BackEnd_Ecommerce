@@ -28,10 +28,18 @@ public class CartProductsService {
     public NewCartProductResponseDTO addNewItemToCart(NewCartProductDTO body, Users currentUser) {
         Products product = this.productsService.findById(body.productId());
         Carts cart = currentUser.getCart();
+        CartProducts savedItem;
+        CartProducts cartProductsFound = this.cartProductsRepository.getItem(product.getId(), cart.getId());
+        if (cartProductsFound == null) {
+            CartProducts item = new CartProducts(cart, product, body.quantity(), product.getPrice());
 
-        CartProducts item = new CartProducts(cart, product, body.quantity(), product.getPrice());
+            savedItem = this.cartProductsRepository.save(item);
+        }
+        else{
+            cartProductsFound.setProductQuantity(cartProductsFound.getProductQuantity() + body.quantity());
+            savedItem = this.cartProductsRepository.save(cartProductsFound);
+        }
 
-        CartProducts savedItem = this.cartProductsRepository.save(item);
 
         return new NewCartProductResponseDTO(savedItem.getId());
 
