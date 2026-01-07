@@ -97,8 +97,17 @@ Informazioni sui prodotti:
 - PostgreSQL
 
 ### Setup
-1. Create a PostgreSQL database
-2. Configure environment variables as described above
+1. E' necessario creare un database postgres
+2. Creare un file env.properties e inserire le variabili descritte sopra (Environment Variables)
+3. Per quanto riguarda gli endpoint postman, la collection si trova nella cartella 'Postman'
+4. Il file si chiama 'Collection.json' e va importato in postman
+5. Per praticità nei test ho creato anche delle variabili d'ambiente che vengono popolate in alcune richieste 
+   6. Ad esempio quando si fa il login con admin il token viene salvato in una variabile d'ambiente
+   7. E' quindi fondamentale imporatre anche il file New Environment.postman_environment.json
+   8. Per semplicità in questo progetto ho omesso la versione delle api
+   9. Inoltre anche per quanto riguarda l'url delle richieste è una variabile, quindi va settata all'interno di postman nel caso in cui non la prenda in automatico
+10. La porta del progetto in java è 8080
+11. La porta di postgres è 5432
 
 ## Main API Endpoints
 
