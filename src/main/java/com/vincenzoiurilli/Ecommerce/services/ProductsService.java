@@ -1,6 +1,7 @@
 package com.vincenzoiurilli.Ecommerce.services;
 
 import com.cloudinary.provisioning.Account;
+import com.vincenzoiurilli.Ecommerce.dto.categories.GetCategoriesResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.products.*;
 import com.vincenzoiurilli.Ecommerce.entities.*;
 import com.vincenzoiurilli.Ecommerce.exceptions.ForbiddenException;
@@ -45,8 +46,21 @@ public class ProductsService {
 
     private ProductsResponseDTO getProductDTO(Products product){
         ProductsResponseDTO dto;
+        List<ProductCategories> productCategories;
+        productCategories = product.getProductCategories();
+
+        Categories category;
+        List<GetCategoriesResponseDTO> categories = new ArrayList<>();
+
+        for (ProductCategories c : productCategories) {
+            category = c.getCategory();
+            GetCategoriesResponseDTO categoryDto = new GetCategoriesResponseDTO(category.getId(), category.getName(), category.getDescription(), category.getType());
+            categories.add(categoryDto);
+        }
+
         if (product instanceof DigitalProduct) {
             dto = new ProductsResponseDTO(
+                    product.getId(),
                     product.getName(),
                     product.getDescription(),
                     "DIGITAL",
@@ -59,11 +73,13 @@ public class ProductsService {
                     ((DigitalProduct) product).getFormat(),
                     0,
                     "",
-                    false
+                    false,
+                    categories
             );
             return dto;
         } else if (product instanceof PhysicalProduct) {
             dto = new ProductsResponseDTO(
+                    product.getId(),
                     product.getName(),
                     product.getDescription(),
                     "PHYSICAL",
@@ -76,7 +92,8 @@ public class ProductsService {
                     "",
                     ((PhysicalProduct) product).getWeight(),
                     ((PhysicalProduct) product).getDimensions(),
-                    ((PhysicalProduct) product).isShipping_required()
+                    ((PhysicalProduct) product).isShipping_required(),
+                    categories
             );
             return dto;
         }
@@ -223,7 +240,8 @@ public class ProductsService {
     }
 
     public boolean belongsToSeller(UUID productId, Users currentUser){
-        return this.productsRepository.findyProductWithSeller(productId, currentUser.getId()) != null;
+        Products product = this.productsRepository.findById(productId).orElseThrow(() -> new NotFoundException(productId));
+        return currentUser.getId().equals(product.getSeller().getId());
     }
 
 }

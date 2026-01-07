@@ -54,7 +54,7 @@ public class UsersService {
         List<Users> users = userRepository.findAll();
         List<GetUsersResponseDTO> dtos = new ArrayList<>();
         for (Users user : users) {
-            GetUsersResponseDTO dto = new GetUsersResponseDTO(user.getName(), user.getSurname(), user.getEmail(), user.getRegistrationDate(), user.getRole().name(), user.getStatus().name());
+            GetUsersResponseDTO dto = new GetUsersResponseDTO(user.getId(), user.getName(), user.getSurname(), user.getEmail(), user.getRegistrationDate(), user.getRole().name(), user.getStatus().name());
             dtos.add(dto);
         }
         return dtos;

@@ -33,9 +33,7 @@ public class CategoriesService {
     }
 
     public Categories findCategoryById(UUID categoryId){
-        Categories category = categoriesRepository.findById(categoryId).orElseThrow(() -> new NotFoundException(categoryId));
-
-        return new Categories(category.getName(), category.getDescription(), category.getType());
+         return categoriesRepository.findById(categoryId).orElseThrow(() -> new NotFoundException(categoryId));
     }
 
     public List<NewCategoryDTO> findAll(){

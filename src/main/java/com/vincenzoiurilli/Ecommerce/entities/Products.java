@@ -91,6 +91,10 @@ public abstract class Products {
         this.quantity = quantity;
     }
 
+    public List<ProductCategories> getProductCategories() {
+        return productCategories;
+    }
+
     @Override
     public String toString() {
         return "Products{" +

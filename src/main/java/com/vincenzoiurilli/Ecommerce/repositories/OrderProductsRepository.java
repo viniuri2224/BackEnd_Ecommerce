@@ -18,7 +18,7 @@ public interface OrderProductsRepository extends JpaRepository<OrderProducts, UU
     @Query("SELECT COUNT(o) FROM OrderProducts o WHERE o.product.id = :productId")
     Integer countByProduct(@Param("productId") UUID productId);
 
-    @Query("SELECT p.id, p.name, SUM(o.quantity), SUM(o.quantity * o.price_at_purchase) FROM OrderProducts o JOIN o.product p WHERE p.seller.id = :sellerId GROUP BY p.id, p.name")
+    @Query("SELECT new com.vincenzoiurilli.Ecommerce.dto.products.ProductsStatisticDTO(p.id, p.name, SUM(o.quantity), SUM(o.quantity * o.price_at_purchase)) FROM OrderProducts o JOIN o.product p WHERE p.seller.id = :sellerId GROUP BY p.id, p.name")
     List<ProductsStatisticDTO> getProductsStatisticBySellerId(@Param("sellerId") UUID sellerId);
 
 }

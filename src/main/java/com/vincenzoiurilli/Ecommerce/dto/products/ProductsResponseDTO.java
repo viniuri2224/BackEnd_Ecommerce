@@ -1,6 +1,12 @@
 package com.vincenzoiurilli.Ecommerce.dto.products;
 
+import com.vincenzoiurilli.Ecommerce.dto.categories.GetCategoriesResponseDTO;
+
+import java.util.List;
+import java.util.UUID;
+
 public record ProductsResponseDTO(
+        UUID productId,
         String name,
         String description,
         String type,
@@ -13,5 +19,6 @@ public record ProductsResponseDTO(
         String format,
         float weight,
         String dimensions,
-        boolean shippingRequires) {
+        boolean shippingRequires,
+        List<GetCategoriesResponseDTO> categories) {
 }
