@@ -32,13 +32,14 @@ public class OrdersService {
         List<CartProducts> cartItem = this.cartProductsService.getCartItems(cart.getId());
 
         Orders order = new Orders(currentUser, LocalDateTime.now());
+        Orders savedOrder = this.ordersRepository.save(order);
 
         for (CartProducts item : cartItem) {
             OrderProducts orderItems = new OrderProducts(order, item.getProduct(), item.getProductQuantity(), item.getProductPrice());
             this.orderProductsService.createOrderItems(orderItems);
             this.cartProductsService.deleteCartItemAfterOrder(item);
         }
-        Orders savedOrder = this.ordersRepository.save(order);
+
         return new NewOrderResponseDTO(savedOrder.getId());
     }
 
