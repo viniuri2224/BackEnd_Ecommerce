@@ -67,7 +67,7 @@ public class ProductsController {
     }
 
     @GetMapping
-    public List<Products> getProducts(@AuthenticationPrincipal Users currentUser){
+    public List<ProductsResponseDTO> getProducts(@AuthenticationPrincipal Users currentUser){
         return this.productsService.getAllProducts(currentUser);
     }
 

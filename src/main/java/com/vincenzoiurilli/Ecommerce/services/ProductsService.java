@@ -12,6 +12,7 @@ import com.vincenzoiurilli.Ecommerce.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,21 +43,69 @@ public class ProductsService {
 
     }
 
-    public List<Products> getAllProducts(Users currentUser){
+    private List<ProductsResponseDTO> getProductsDTO(List<Products> products) {
+        List<ProductsResponseDTO> dtos = new ArrayList<>();
+        for (Products product : products) {
+            ProductsResponseDTO dto;
+            if (product instanceof DigitalProduct) {
+                dto = new ProductsResponseDTO(
+                        product.getName(),
+                        product.getDescription(),
+                        "DIGITAL",
+                        product.getSeller().getEmail(),
+                        product.getPrice(),
+                        product.getQuantity(),
+                        ((DigitalProduct) product).getFileName(),
+                        ((DigitalProduct) product).getFileUrl(),
+                        ((DigitalProduct) product).getFileSize(),
+                        ((DigitalProduct) product).getFormat(),
+                        0,
+                        "",
+                        false
+                );
+                dtos.add(dto);
+            } else if (product instanceof PhysicalProduct) {
+                dto = new ProductsResponseDTO(
+                        product.getName(),
+                        product.getDescription(),
+                        "PHYSICAL",
+                        product.getSeller().getEmail(),
+                        product.getPrice(),
+                        product.getQuantity(),
+                        "",
+                        "",
+                        "",
+                        "",
+                        ((PhysicalProduct) product).getWeight(),
+                        ((PhysicalProduct) product).getDimensions(),
+                        ((PhysicalProduct) product).isShipping_required()
+                );
+                dtos.add(dto);
+            }
+
+        }
+        return dtos;
+    }
+
+    public List<ProductsResponseDTO> getAllProducts(Users currentUser){
         List<Products> foundProducts;
-        if(currentUser.getRole() == Role.SELLER){
+        List<ProductsResponseDTO> dtos = new ArrayList<>();
+
+        if(currentUser.getRole() == Role.SELLER) {
             foundProducts = this.productsRepository.findBySeller(currentUser.getId());
-            if(foundProducts.isEmpty()){
+            if (foundProducts.isEmpty()) {
                 throw new NotFoundException("Products for sellers not found");
             }
-            return foundProducts;
+            dtos.addAll(getProductsDTO(foundProducts));
+            return dtos;
         }
         else{
            foundProducts = this.productsRepository.findAll();
            if(foundProducts.isEmpty()){
                throw new NotFoundException("Products not found");
            }
-           return foundProducts;
+           dtos.addAll(getProductsDTO(foundProducts));
+           return dtos;
         }
     }
 

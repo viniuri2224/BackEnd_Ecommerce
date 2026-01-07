@@ -45,9 +45,7 @@ public class OrdersService {
     public List<GetOrdersResponseDTO> getOrders(Users currentUser) {
         List<Orders> userOrders = this.ordersRepository.getOrders(currentUser.getId());
 
-        if (userOrders.isEmpty()) {
-            throw new NotFoundException("Orders not found");
-        }
+        if (userOrders.isEmpty()) return new ArrayList<>();
 
         List<GetOrdersResponseDTO> dtos = new ArrayList<>();
         for (Orders order : userOrders) {

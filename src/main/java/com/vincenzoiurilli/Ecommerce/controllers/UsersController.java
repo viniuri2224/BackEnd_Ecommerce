@@ -52,6 +52,7 @@ public class UsersController {
         if (validationResult.hasErrors()) {
             throw new ValidationException(validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
         }
+
         return this.usersService.findByIdAndUpdateUser(userId, body);
     }
 
@@ -63,7 +64,7 @@ public class UsersController {
 
     @PreAuthorize("hasAuthority('ADMIN') or #userId == authentication.principal.id")
     @PatchMapping("/{userId}/profile-picture")
-    public String uploadImage(@RequestParam("profile-picture") MultipartFile file, @PathVariable("userId") UUID userId) {
+    public String uploadImage(@RequestParam("image") MultipartFile file, @PathVariable("userId") UUID userId) {
         return this.usersService.uploadProfilePicture(file, userId);
     }
 

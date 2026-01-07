@@ -20,13 +20,13 @@ public class CategoriesController {
     @Autowired
     private CategoriesService categoriesService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SELLER')")
     @GetMapping("/{categoryId}")
     public NewCategoryDTO findById(@PathVariable("categoryId") UUID categoryId){
         return this.categoriesService.findById(categoryId);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SELLER')")
     @GetMapping
     public List<NewCategoryDTO> findAll(){
         return this.categoriesService.findAll();
