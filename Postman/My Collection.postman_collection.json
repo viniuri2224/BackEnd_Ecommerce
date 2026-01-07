@@ -1,0 +1,1984 @@
+{
+	"info": {
+		"_postman_id": "a2e0253d-739c-4e9e-90c5-7755f6ef572d",
+		"name": "My Collection",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "51168886",
+		"_collection_link": "https://s00002224-6252871.postman.co/workspace/d8835009-0cdf-4280-868e-fe4ba64dbcc8/collection/51168886-a2e0253d-739c-4e9e-90c5-7755f6ef572d?action=share&source=collection_link&creator=51168886"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Registration",
+					"item": [
+						{
+							"name": "register_customer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let json = pm.response.json();",
+											"",
+											"pm.environment.set(\"customerId\", json.id);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"surname\": \"{{$randomLastName}}\",\n    \"email\": \"customer@mail.com\",\n    \"password\": \"Password123!\",\n    \"role\":\"CUSTOMER\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register_seller",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let json = pm.response.json();",
+											"",
+											"pm.environment.set(\"sellerId\", json.id);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"surname\": \"{{$randomLastName}}\",\n    \"email\": \"seller@mail.com\",\n    \"password\": \"Password123!\",\n    \"role\":\"SELLER\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register_admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let json = pm.response.json();",
+											"",
+											"pm.environment.set(\"adminId\", json.id);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"surname\": \"{{$randomLastName}}\",\n    \"email\": \"admin@mail.com\",\n    \"password\": \"Password123!\",\n    \"role\":\"ADMIN\"\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "login_admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let json = pm.response.json();",
+											"",
+											"pm.environment.set(\"adminToken\", json.token);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"admin@mail.com\",\n    \"password\": \"Password123!\"\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/login",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login_customer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let json = pm.response.json();",
+											"",
+											"pm.environment.set(\"customerToken\", json.token);"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"email\": \"customer@mail.com\",\n    \"password\": \"Password123!\"\n\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/login",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login_seller",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let json = pm.response.json();",
+											"",
+											"pm.environment.set(\"sellerToken\", json.token);",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"email\": \"seller@mail.com\",\n    \"password\": \"Password123!\"\n\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/login",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "User Managmenet",
+							"item": [
+								{
+									"name": "Get Users",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"surname\": \"{{$randomLastName}}\",\n    \"email\": \"customer@mail.com\",\n    \"password\": \"Password123!\",\n    \"role\":\"CUSTOMER\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/{{customerId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{customerId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/{{customerId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{customerId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Upload Profile Picture",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "image",
+													"description": "test",
+													"type": "file",
+													"src": "postman-cloud:///1f0ebed7-16b7-4690-bdcf-4ce6adf36881"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/{{customerId}}/profile-picture",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{customerId}}",
+												"profile-picture"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Categories Management",
+							"item": [
+								{
+									"name": "Create Category",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"categoryId\", json.id);"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"{{$randomNoun}}\",\n    \"description\": \"{{$randomAdjective}} {{$randomNoun}}\",\n    \"type\": \"{{$randomNoun}}\"\n\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/categories",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"categories"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Categories",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/categories",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"categories"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/categories/{{categoryId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"categories",
+												"{{categoryId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"{{$randomNoun}}\",\n    \"description\": \"{{$randomAdjective}} {{$randomNoun}}\",\n    \"type\": \"{{$randomNoun}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/categories/{{categoryId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"categories",
+												"{{categoryId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{adminToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/categories/{{categoryId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"categories",
+												"{{categoryId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Seller",
+					"item": [
+						{
+							"name": "Product Management",
+							"item": [
+								{
+									"name": "Create New Digital Product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"digitalProductId\", json.id);"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"{{$randomProductName}}\",\n  \"description\": \"{{$randomLoremSentence}}\",\n  \"price\": {{$randomPrice}},\n  \"quantity\": {{$randomInt}},\n  \"file_name\": \"{{$randomFileName}}\",\n  \"file_url\": \"https://{{$randomDomainName}}/{{$randomWord}}/{{$randomFileName}}\",\n  \"file_size\": \"{{$randomInt}}MB\",\n  \"format\": \"{{$randomMimeType}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/products/digital-products",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"digital-products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create New Physical Product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"physicalProductId\", json.id);"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"{{$randomProductName}}\",\n  \"description\": \"{{$randomLoremSentence}}\",\n  \"price\": {{$randomPrice}},\n  \"quantity\": {{$randomInt}},\n  \"weight\": {{$randomInt}},\n  \"dimensions\": \"{{$randomInt}}x{{$randomInt}}x{{$randomInt}} cm\",\n  \"shipping_required\": {{$randomBoolean}}\n}\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/products/physical-products",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"physical-products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Associate Product with Category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/products/{{digitalProductId}}/categories/{{categoryId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"{{digitalProductId}}",
+												"categories",
+												"{{categoryId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Products",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/products",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/products/{{digitalProductId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"{{digitalProductId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Statistics",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/products/statistics",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"statistics"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Digital Product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"{{$randomProductName}}\",\n  \"description\": \"{{$randomLoremSentence}}\",\n  \"price\": {{$randomPrice}},\n  \"quantity\": {{$randomInt}},\n  \"file_name\": \"{{$randomFileName}}\",\n  \"file_url\": \"https://{{$randomDomainName}}/{{$randomWord}}/{{$randomFileName}}\",\n  \"file_size\": \"{{$randomInt}}MB\",\n  \"format\": \"{{$randomMimeType}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/products/digital-products/{{digitalProductId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"digital-products",
+												"{{digitalProductId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Physical Product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"{{$randomProductName}}\",\n  \"description\": \"{{$randomLoremSentence}}\",\n  \"price\": {{$randomPrice}},\n  \"quantity\": {{$randomInt}},\n  \"weight\": {{$randomInt}},\n  \"dimensions\": \"{{$randomInt}}x{{$randomInt}}x{{$randomInt}} cm\",\n  \"shipping_required\": {{$randomBoolean}}\n}\n"
+										},
+										"url": {
+											"raw": "{{baseURL}}/products/physical-products/{{physicalProductId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"physical-products",
+												"{{physicalProductId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Association With Category",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/products/{{digitalProductId}}/categories/{{categoryId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"{{digitalProductId}}",
+												"categories",
+												"{{categoryId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/products/{{digitalProductId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"{{digitalProductId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Self Management",
+							"item": [
+								{
+									"name": "Get Users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"selfId\", json.id);",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/me",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"me"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"surname\": \"{{$randomLastName}}\",\n    \"email\": \"seller@mail.com\",\n    \"password\": \"Password123!\",\n    \"role\":\"SELLER\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/{{selfId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{selfId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/{{selfId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{selfId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Upload Profile Picture",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "image",
+													"description": "test",
+													"type": "file",
+													"src": "postman-cloud:///1f0ebed7-16b7-4690-bdcf-4ce6adf36881"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/{{selfId}}/profile-picture",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{selfId}}",
+												"profile-picture"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Address",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"selfAddressId\", json.id);"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"address\": \"{{$randomStreetAddress}}\",\n  \"city\": \"{{$randomCity}}\",\n  \"region\": \"{{$randomWord}}\",\n  \"state\": \"{{$randomCountry}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/addresses",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"addresses"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Address",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"address\": \"{{$randomStreetAddress}}\",\n  \"city\": \"{{$randomCity}}\",\n  \"region\": \"{{$randomWord}}\",\n  \"state\": \"{{$randomCountry}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/addresses/{{selfAddressId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"addresses",
+												"{{selfAddressId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Address",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{sellerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/addresses/{{selfAddressId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"addresses",
+												"{{selfAddressId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Customer",
+					"item": [
+						{
+							"name": "Self Management",
+							"item": [
+								{
+									"name": "Get Users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"selfId\", json.id);",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/me",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"me"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"surname\": \"{{$randomLastName}}\",\n    \"email\": \"seller@mail.com\",\n    \"password\": \"Password123!\",\n    \"role\":\"SELLER\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/{{selfId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{selfId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/{{selfId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{selfId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Upload Profile Picture",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "image",
+													"description": "test",
+													"type": "file",
+													"src": "postman-cloud:///1f0ebed7-16b7-4690-bdcf-4ce6adf36881"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/{{selfId}}/profile-picture",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"{{selfId}}",
+												"profile-picture"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Address",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"selfAddressId\", json.id);"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"address\": \"{{$randomStreetAddress}}\",\n  \"city\": \"{{$randomCity}}\",\n  \"region\": \"{{$randomWord}}\",\n  \"state\": \"{{$randomCountry}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/addresses",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"addresses"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Address",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"address\": \"{{$randomStreetAddress}}\",\n  \"city\": \"{{$randomCity}}\",\n  \"region\": \"{{$randomWord}}\",\n  \"state\": \"{{$randomCountry}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/addresses/{{selfAddressId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"addresses",
+												"{{selfAddressId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Address",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/addresses/{{selfAddressId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"addresses",
+												"{{selfAddressId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Product Visualization",
+							"item": [
+								{
+									"name": "Get Products",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/products",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/products/{{digitalProductId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"products",
+												"{{digitalProductId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Cart Management",
+							"item": [
+								{
+									"name": "Get Cart Id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"cartId\", json.id);"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/me/carts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"carts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Item to Cart",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"cartItemId\", json.id);"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"productId\": \"{{physicalProductId}}\",\n    \"cartId\": \"{{cartId}}\",\n    \"quantity\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/me/carts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"carts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Modify Quantity of Product",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"quantity\": 2\n}"
+										},
+										"url": {
+											"raw": "{{baseURL}}/users/me/carts/items/{{physicalProductId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"carts",
+												"items",
+												"{{physicalProductId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Cart Items",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/me/carts/items",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"carts",
+												"items"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Cart Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/users/me/carts/items/{{physicalProductId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"users",
+												"me",
+												"carts",
+												"items",
+												"{{physicalProductId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Order Management",
+							"item": [
+								{
+									"name": "Create New Order",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let json = pm.response.json();",
+													"",
+													"pm.environment.set(\"orderId\", json.id);"
+												],
+												"type": "text/javascript",
+												"packages": {},
+												"requests": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/orders",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"orders"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Orders",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/orders",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"orders"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Order",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{customerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/orders/{{orderId}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"orders",
+												"{{orderId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
