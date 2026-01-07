@@ -45,6 +45,11 @@ public class UsersController {
         return this.usersService.getUsers();
     }
 
+    @GetMapping("/me")
+    public GetUsersResponseDTO getUser(@AuthenticationPrincipal Users user) {
+        return this.usersService.findUserById(user.getId());
+    }
+
 
     @PreAuthorize("hasAuthority('ADMIN') or #userId == authentication.principal.id")
     @PutMapping("/{userId}")
@@ -115,5 +120,11 @@ public class UsersController {
     public List<GetCartProductsDTO> getCartItems(@AuthenticationPrincipal Users currentUser) {
         return this.cartProductsService.getCartProducts(currentUser);
     }
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @GetMapping("/me/carts")
+    public UUID getCartId(@AuthenticationPrincipal Users currentUser) {
+        return this.usersService.getCartId(currentUser.getId());
+    }
+
 
 }

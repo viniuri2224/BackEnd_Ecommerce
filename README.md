@@ -114,6 +114,7 @@ Informazioni sui prodotti:
 - POST /users/addresses
 - PUT /users/addresses/{id}
 - DELETE /users/addresses/{id}
+- GET /users/me/carts (customer)
 - POST /users/me/carts (customer)
 - PUT /users/me/carts/items/{productId} (customer)
 - DELETE /users/me/carts/items/{productId} (customer)

@@ -68,7 +68,9 @@ public class UsersService {
 
         Users savedUser = userRepository.save(newUser);
 
-        this.createUserCart(savedUser);
+        if (savedUser.getRole() == Role.CUSTOMER) {
+            this.createUserCart(savedUser);
+        }
 
         this.mailgunSender.sendRegistrationEmail(savedUser);
 
@@ -81,6 +83,12 @@ public class UsersService {
 
     public Users findById(UUID userId) {
         return this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+    }
+
+    public GetUsersResponseDTO findUserById(UUID userId) {
+        Users user = this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+
+        return new GetUsersResponseDTO(user.getId(), user.getName(), user.getSurname(), user.getEmail(), user.getRegistrationDate(), user.getRole().name(), user.getStatus().name());
     }
 
     private void createUserCart(Users user){
@@ -128,6 +136,13 @@ public class UsersService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public UUID getCartId(UUID userId) {
+        Users user = this.findById(userId);
+
+        return user.getCart().getId();
+
     }
 
 }
