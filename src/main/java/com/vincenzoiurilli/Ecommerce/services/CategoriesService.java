@@ -1,5 +1,6 @@
 package com.vincenzoiurilli.Ecommerce.services;
 
+import com.vincenzoiurilli.Ecommerce.dto.categories.GetCategoriesResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.categories.NewCategoryDTO;
 import com.vincenzoiurilli.Ecommerce.dto.categories.NewCategoryResponseDTO;
 import com.vincenzoiurilli.Ecommerce.entities.Categories;
@@ -36,11 +37,11 @@ public class CategoriesService {
          return categoriesRepository.findById(categoryId).orElseThrow(() -> new NotFoundException(categoryId));
     }
 
-    public List<NewCategoryDTO> findAll(){
+    public List<GetCategoriesResponseDTO> findAll(){
         List<Categories> categories = categoriesRepository.findAll();
-        List<NewCategoryDTO> categoriesDTO = new ArrayList<>();
+        List<GetCategoriesResponseDTO> categoriesDTO = new ArrayList<>();
         for (Categories category : categories) {
-            categoriesDTO.add(new NewCategoryDTO(category.getName(), category.getDescription(), category.getType()));
+            categoriesDTO.add(new GetCategoriesResponseDTO(category.getId(),category.getName(), category.getDescription(), category.getType()));
         }
         return categoriesDTO;
     }

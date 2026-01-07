@@ -1,5 +1,6 @@
 package com.vincenzoiurilli.Ecommerce.controllers;
 
+import com.vincenzoiurilli.Ecommerce.dto.categories.GetCategoriesResponseDTO;
 import com.vincenzoiurilli.Ecommerce.dto.categories.NewCategoryDTO;
 import com.vincenzoiurilli.Ecommerce.dto.categories.NewCategoryResponseDTO;
 import com.vincenzoiurilli.Ecommerce.exceptions.ValidationException;
@@ -28,7 +29,7 @@ public class CategoriesController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SELLER')")
     @GetMapping
-    public List<NewCategoryDTO> findAll(){
+    public List<GetCategoriesResponseDTO> findAll(){
         return this.categoriesService.findAll();
     }
 
