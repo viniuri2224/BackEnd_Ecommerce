@@ -22,6 +22,6 @@ public record NewPhysicalProductDTO(
         float weight,
         @NotBlank(message = "Inserire delle dimensioni")
         String dimensions,
-        @NotBlank(message = "Specificare se è da spedire")
+        @NotNull(message = "Specificare se è da spedire")
         boolean shipping_required) {
 }

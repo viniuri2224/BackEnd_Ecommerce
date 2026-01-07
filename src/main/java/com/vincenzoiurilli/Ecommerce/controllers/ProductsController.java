@@ -72,8 +72,8 @@ public class ProductsController {
     }
 
     @GetMapping("/{productId}")
-    public Products getProductById(@PathVariable("productId") UUID productId, @AuthenticationPrincipal Users currentUser){
-        return this.productsService.findById(productId, currentUser);
+    public ProductsResponseDTO getProductById(@PathVariable("productId") UUID productId, @AuthenticationPrincipal Users currentUser){
+        return this.productsService.findProductById(productId, currentUser);
     }
 
     @PreAuthorize("hasAuthority('SELLER')")

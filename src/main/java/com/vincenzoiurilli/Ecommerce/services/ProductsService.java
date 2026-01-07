@@ -43,46 +43,52 @@ public class ProductsService {
 
     }
 
+    private ProductsResponseDTO getProductDTO(Products product){
+        ProductsResponseDTO dto;
+        if (product instanceof DigitalProduct) {
+            dto = new ProductsResponseDTO(
+                    product.getName(),
+                    product.getDescription(),
+                    "DIGITAL",
+                    product.getSeller().getEmail(),
+                    product.getPrice(),
+                    product.getQuantity(),
+                    ((DigitalProduct) product).getFileName(),
+                    ((DigitalProduct) product).getFileUrl(),
+                    ((DigitalProduct) product).getFileSize(),
+                    ((DigitalProduct) product).getFormat(),
+                    0,
+                    "",
+                    false
+            );
+            return dto;
+        } else if (product instanceof PhysicalProduct) {
+            dto = new ProductsResponseDTO(
+                    product.getName(),
+                    product.getDescription(),
+                    "PHYSICAL",
+                    product.getSeller().getEmail(),
+                    product.getPrice(),
+                    product.getQuantity(),
+                    "",
+                    "",
+                    "",
+                    "",
+                    ((PhysicalProduct) product).getWeight(),
+                    ((PhysicalProduct) product).getDimensions(),
+                    ((PhysicalProduct) product).isShipping_required()
+            );
+            return dto;
+        }
+        throw new IllegalArgumentException(
+                "Tipo di prodotto non supportato: " + product.getClass().getSimpleName()
+        );
+    }
+
     private List<ProductsResponseDTO> getProductsDTO(List<Products> products) {
         List<ProductsResponseDTO> dtos = new ArrayList<>();
         for (Products product : products) {
-            ProductsResponseDTO dto;
-            if (product instanceof DigitalProduct) {
-                dto = new ProductsResponseDTO(
-                        product.getName(),
-                        product.getDescription(),
-                        "DIGITAL",
-                        product.getSeller().getEmail(),
-                        product.getPrice(),
-                        product.getQuantity(),
-                        ((DigitalProduct) product).getFileName(),
-                        ((DigitalProduct) product).getFileUrl(),
-                        ((DigitalProduct) product).getFileSize(),
-                        ((DigitalProduct) product).getFormat(),
-                        0,
-                        "",
-                        false
-                );
-                dtos.add(dto);
-            } else if (product instanceof PhysicalProduct) {
-                dto = new ProductsResponseDTO(
-                        product.getName(),
-                        product.getDescription(),
-                        "PHYSICAL",
-                        product.getSeller().getEmail(),
-                        product.getPrice(),
-                        product.getQuantity(),
-                        "",
-                        "",
-                        "",
-                        "",
-                        ((PhysicalProduct) product).getWeight(),
-                        ((PhysicalProduct) product).getDimensions(),
-                        ((PhysicalProduct) product).isShipping_required()
-                );
-                dtos.add(dto);
-            }
-
+            dtos.add(getProductDTO(product));
         }
         return dtos;
     }
@@ -124,6 +130,19 @@ public class ProductsService {
         }
 
         return product;
+
+    }
+
+    public ProductsResponseDTO findProductById(UUID productId, Users currentUser){
+        Products product = this.productsRepository.findById(productId).orElseThrow(() -> new NotFoundException(productId));
+
+        if(currentUser.getRole() == Role.SELLER){
+            if(!(currentUser.getId().equals(product.getSeller().getId()))){
+                throw new UnauthorizedException("You are not allowed to access this product");
+            }
+
+        }
+        return getProductDTO(product);
 
     }
 
