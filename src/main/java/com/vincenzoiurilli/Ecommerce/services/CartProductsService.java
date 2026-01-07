@@ -88,8 +88,8 @@ public class CartProductsService {
         List<GetCartProductsDTO> dtos = new ArrayList<>();
         for (CartProducts item : cartItems) {
             GetCartProductsDTO dto = new GetCartProductsDTO(
-                    item.getProduct().getId(),
-                    item.getCart().getId(),
+                    item.getProduct().getName(),
+                    item.getProduct().getDescription(),
                     item.getProductQuantity(),
                     item.getProduct().getPrice()
 
